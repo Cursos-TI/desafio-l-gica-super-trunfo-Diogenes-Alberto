@@ -67,20 +67,33 @@ void retornaIdCidade ( char nome[], char texto[], int indice)
     strcat(nome,convertido);
 }
 
-void CompararValores(struct carta item1,struct carta item2)
+void MostrarValores(struct carta item1,struct carta item2,char opcao[],float valor1,float valor2)
 {
     Margem();
-    printf("==Comparando o atributo Populacao das Cartas==\n");
-    printf("Carta 1 - Estado: %s, Código: %s, População: %d\n",item1.nomeEstado,item1.codigoCidade,item1.populacaoCidade);
-    printf("Carta 2 - Estado: %s, Código: %s, População: %d\n",item2.nomeEstado,item2.codigoCidade,item2.populacaoCidade);
+    
+    printf("==Comparando o atributo %s das Cartas==\n",opcao);
+    printf("Carta 1 - Estado: %s, Código: %s : %.2f \n",item1.nomeEstado,item1.codigoCidade,valor1);
+    printf("Carta 2 - Estado: %s, Código: %s : %.2f \n",item2.nomeEstado,item2.codigoCidade,valor2);
+}
 
-    if(item1.populacaoCidade>=item2.populacaoCidade)
-    {
-        printf("Resultado: Carta 1 da cidade %s é a vencedora!Com um total de:%d \n",item1.nomeCidade,item1.populacaoCidade);
-    }
-    else{
-        printf("Resultado: Carta 2 da cidade %s é a vencedora!Com um total de:%d \n",item2.nomeCidade,item2.populacaoCidade);
-    }
+struct carta PreencherValores()
+{
+    struct carta resultado;
+
+    printf("Digite o nome do Estado da Cidade :\n");
+    scanf(" %s",resultado.nomeEstado);
+    printf("Digite o nome da Cidade :\n");
+    scanf(" %s",resultado.nomeCidade);
+    printf("Digite a populacao da Cidade :\n");
+    scanf("%d", &resultado.populacaoCidade);
+    printf("Digite a area da Cidade :\n");
+    scanf("%f", &resultado.areaCidade);
+    printf("Digite o pib da Cidade :\n");
+    scanf("%f",&resultado.pibCidade);    
+    printf("Digite a quantidade de pontos turisticos da Cidade :\n");
+    scanf("%d",&resultado.pointsCidade);
+
+    return resultado;
 }
 
 int main() {
@@ -88,30 +101,13 @@ int main() {
     // Você pode utilizar o código do primeiro desafio
 
     struct carta carta01, carta02;
+    char opcao1,opcao2;
+    char textoOpcao1[30],textoOpcao2[30];
     int codigo=1;
-    // Cadastro das Cartas:
-    // Implemente a lógica para solicitar ao usuário que insira os dados das cidades
-    // utilizando a função scanf para capturar as entradas.
-    // utilize o código do primeiro desafio
-
-    // Exemplo:
-    // printf("Digite o código da cidade: ");
-    // scanf("%s", codigo);
-    // 
-    // (Repita para cada propriedade)
-
-    printf("Digite o nome do Estado da Cidade 01:\n");
-    scanf(" %s",carta01.nomeEstado);
-    printf("Digite o nome da Cidade 01:\n");
-    scanf(" %s",carta01.nomeCidade);
-    printf("Digite a populacao da Cidade 01:\n");
-    scanf("%d", &carta01.populacaoCidade);
-    printf("Digite a area da Cidade 01:\n");
-    scanf("%f", &carta01.areaCidade);
-    printf("Digite o pib da Cidade 01:\n");
-    scanf("%f",&carta01.pibCidade);    
-    printf("Digite a quantidade de pontos turisticos da Cidade 01:\n");
-    scanf("%d",&carta01.pointsCidade);
+    int resultado1,resultado2, pontuacao1, pontuacao2;
+    pontuacao1=pontuacao2=0;
+    
+    carta01 = PreencherValores();
 
     retornaIdCidade(carta01.codigoCidade,"A0",codigo);
     carta01.densidadePopulacional=DensidadePopulacional(carta01.populacaoCidade,carta01.areaCidade);
@@ -121,18 +117,7 @@ int main() {
 
     Margem();    
 
-    printf("Digite o nome do Estado da Cidade 02:\n");
-    scanf(" %s",carta02.nomeEstado);
-    printf("Digite o nome da Cidade 02:\n");
-    scanf(" %s",carta02.nomeCidade);
-    printf("Digite a populacao da Cidade 02:\n");
-    scanf("%d", &carta02.populacaoCidade);
-    printf("Digite a area da Cidade 02:\n");
-    scanf("%f", &carta02.areaCidade);
-    printf("Digite o pib da Cidade 02:\n");
-    scanf("%f",&carta02.pibCidade);    
-    printf("Digite a quantidade de pontos turisticos da Cidade 02:\n");
-    scanf("%d",&carta02.pointsCidade);
+    carta02 = PreencherValores();
 
     codigo++;
     retornaIdCidade(carta02.codigoCidade,"A0",codigo);
@@ -141,24 +126,129 @@ int main() {
     carta02.superPoder=CalcularSuperPoder(carta02);
     MostrarDados("02",carta02);
 
-    CompararValores(carta01,carta02);
+    // CompararValores(carta01,carta02);
+    printf("Escolha qual propriedade desejam comparar:\n");
+    printf("(1) Populacao.\n");
+    printf("(2) Area da cidade.\n");
+    printf("(3) Pib.\n");
+    printf("(4) Pib per capita.\n");
+    printf("(5) Pontos turisticos.\n");
+    printf("(6) Densidade Populacional.\n");
+    printf("(7) Super poder.\n");
+    printf("Digite a primeira opcao: ");
+    scanf(" %c",&opcao1);
+    printf("Digite a segunda opcao: ");
+    scanf(" %c",&opcao2);
 
-    // Comparação de Cartas:
-    // Desenvolva a lógica de comparação entre duas cartas.
-    // Utilize estruturas de decisão como if, if-else para comparar atributos como população, área, PIB, etc.
-    // Exemplo:
-    // if (populacaoA > populacaoB) {
-    //     printf("Cidade 1 tem maior população.\n");
-    // } else {
-    //     printf("Cidade 2 tem maior população.\n");
-    // }
+    switch (opcao1)
+    {
+        case '1':
+            strcpy(textoOpcao1,"Populacao");
+            resultado1=(carta01.populacaoCidade>=carta02.populacaoCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao1,carta01.populacaoCidade,carta02.populacaoCidade);
+            (carta01.populacaoCidade>=carta02.populacaoCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '2':
+            strcpy(textoOpcao1,"Area da cidade");
+            resultado1=(carta01.areaCidade>=carta02.areaCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao1,carta01.areaCidade,carta02.areaCidade);
+            (carta01.areaCidade>=carta02.areaCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '3':        
+            strcpy(textoOpcao1,"Pib");
+            resultado1=(carta01.pibCidade>=carta02.pibCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao1,carta01.pibCidade,carta02.pibCidade);
+            (carta01.pibCidade>=carta02.pibCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '4':        
+            strcpy(textoOpcao1,"Pib per capita");
+            resultado1=(carta01.pibPerCapita>=carta02.pibPerCapita)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao1,carta01.pibPerCapita,carta02.pibPerCapita);
+            (carta01.pibPerCapita>=carta02.pibPerCapita)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '5':        
+            strcpy(textoOpcao1,"Pontos turisticos");
+            resultado1=(carta01.pointsCidade>=carta02.pointsCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao1,carta01.pointsCidade,carta02.pointsCidade);
+            (carta01.pointsCidade>=carta02.pointsCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '6':        
+            strcpy(textoOpcao1,"Densidade Populacional");
+            resultado1=(carta01.densidadePopulacional<=carta02.densidadePopulacional)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao1,carta01.densidadePopulacional,carta02.densidadePopulacional);
+            (carta01.densidadePopulacional<=carta02.densidadePopulacional)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '7':        
+            strcpy(textoOpcao1,"Super poder");
+            resultado1=(carta01.superPoder>=carta02.superPoder)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao1,carta01.superPoder,carta02.superPoder);
+            (carta01.superPoder>=carta02.superPoder)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;    
+        default:
+        printf("Opcao invalida");
+            break;
+    }
 
-    // Exibição dos Resultados:
-    // Após realizar as comparações, exiba os resultados para o usuário.
-    // Certifique-se de que o sistema mostre claramente qual carta venceu e com base em qual atributo.
+    switch (opcao2)
+    {
+        case '1':
+            strcpy(textoOpcao2,"Populacao");
+            resultado2=(carta01.populacaoCidade>=carta02.populacaoCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao2,carta01.populacaoCidade,carta02.populacaoCidade);
+            (carta01.populacaoCidade>=carta02.populacaoCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '2':
+            strcpy(textoOpcao2,"Area da cidade");
+            resultado2=(carta01.areaCidade>=carta02.areaCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao2,carta01.areaCidade,carta02.areaCidade);
+            (carta01.areaCidade>=carta02.areaCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '3':        
+            strcpy(textoOpcao2,"Pib");
+            resultado2=(carta01.pibCidade>=carta02.pibCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao2,carta01.pibCidade,carta02.pibCidade);
+            (carta01.pibCidade>=carta02.pibCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '4':        
+            strcpy(textoOpcao2,"Pib per capita");
+            resultado2=(carta01.pibPerCapita>=carta02.pibPerCapita)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao2,carta01.pibPerCapita,carta02.pibPerCapita);
+            (carta01.pibPerCapita>=carta02.pibPerCapita)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '5':        
+            strcpy(textoOpcao2,"Pontos turisticos");
+            resultado2=(carta01.pointsCidade>=carta02.pointsCidade)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao2,carta01.pointsCidade,carta02.pointsCidade);
+            (carta01.pointsCidade>=carta02.pointsCidade)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '6':        
+            strcpy(textoOpcao2,"Densidade Populacional");
+            resultado2=(carta01.densidadePopulacional<=carta02.densidadePopulacional)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao2,carta01.densidadePopulacional,carta02.densidadePopulacional);
+            (carta01.densidadePopulacional<=carta02.densidadePopulacional)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;
+        case '7':        
+            strcpy(textoOpcao2,"Super poder");
+            resultado2=(carta01.superPoder>=carta02.superPoder)?1:0;
+            MostrarValores(carta01,carta02,textoOpcao2,carta01.superPoder,carta02.superPoder);
+            (carta01.superPoder>=carta02.superPoder)?printf("\nCarta 1 vencedora\n"):printf("\nCarta 2 vencedora\n");
+            break;    
+        default:
+        printf("Opcao invalida");
+            break;
+    }
 
-    // Exemplo:
-    // printf("A cidade vencedora é: %s\n", cidadeVencedora);
+    if(resultado1&& resultado2)
+    {
+        printf("\nJogador1 venceu\n");
+    }
+    else if(!resultado1&& !resultado2)
+    {
+        printf("\njogador2 venceu\n");
+    }
+    else{
+        printf("\njogo empatado\n");
+    }
 
     return 0;
 }
