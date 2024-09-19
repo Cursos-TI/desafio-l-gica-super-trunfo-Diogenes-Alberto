@@ -95,7 +95,16 @@ struct carta PreencherValores()
 
     return resultado;
 }
-
+void MostrarMenu(){
+    printf("Escolha qual propriedade desejam comparar:\n");
+    printf("(1) Populacao.\n");
+    printf("(2) Area da cidade.\n");
+    printf("(3) Pib.\n");
+    printf("(4) Pib per capita.\n");
+    printf("(5) Pontos turisticos.\n");
+    printf("(6) Densidade Populacional.\n");
+    printf("(7) Super poder.\n");
+}
 int main() {
     // Definição das variáveis para armazenar as propriedades das cidades
     // Você pode utilizar o código do primeiro desafio
@@ -126,15 +135,7 @@ int main() {
     carta02.superPoder=CalcularSuperPoder(carta02);
     MostrarDados("02",carta02);
 
-    // CompararValores(carta01,carta02);
-    printf("Escolha qual propriedade desejam comparar:\n");
-    printf("(1) Populacao.\n");
-    printf("(2) Area da cidade.\n");
-    printf("(3) Pib.\n");
-    printf("(4) Pib per capita.\n");
-    printf("(5) Pontos turisticos.\n");
-    printf("(6) Densidade Populacional.\n");
-    printf("(7) Super poder.\n");
+    MostrarMenu();
     printf("Digite a primeira opcao: ");
     scanf(" %c",&opcao1);
     printf("Digite a segunda opcao: ");
@@ -240,14 +241,44 @@ int main() {
 
     if(resultado1&& resultado2)
     {
-        printf("\nJogador1 venceu\n");
+        Margem();
+        printf("\nJogador1 venceu as duas comparacoes\n");
+        Margem;
     }
     else if(!resultado1&& !resultado2)
     {
-        printf("\njogador2 venceu\n");
+        Margem();
+        printf("\njogador2 venceu as Duas comparacoes\n");
+        Margem();
     }
     else{
-        printf("\njogo empatado\n");
+        Margem();
+        printf("\njogo empatado!!!!!\n");
+        if(resultado1)
+        {
+            
+            printf("Jogador 1 venceu utilizando a opcao %s\n",textoOpcao1);
+            
+        }
+        else
+        {
+            
+            printf("Jogador 2 venceu utilizando a opcao %s\n",textoOpcao1);
+            
+        }
+        if(resultado2)
+        {
+            
+            printf("Jogador 1 venceu utilizando a opcao %s\n",textoOpcao2);
+            
+        }
+        else
+        {
+            
+            printf("Jogador 2 venceu utilizando a opcao %s\n",textoOpcao2);
+            
+        }
+        Margem();
     }
 
     return 0;
